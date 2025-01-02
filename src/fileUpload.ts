@@ -3,14 +3,14 @@
 // example val: ".xml" (for just one extension) or ".xml,.csv" (for multiple)
 export const readFileFromUser = (
   acceptedFileExtensionsString: string | null = null
-) => {
+): Promise<null | { name: string; data: ArrayBuffer }> => {
   return new Promise((resolve) => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
     if (acceptedFileExtensionsString !== null) {
       fileInput.accept = acceptedFileExtensionsString;
     }
-    fileInput.addEventListener('change', (event: any) => {
+    fileInput.addEventListener("change", (event: any) => {
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onabort = () => {
@@ -19,7 +19,7 @@ export const readFileFromUser = (
       reader.onload = () => {
         resolve({
           name: file.name,
-          data: reader.result,
+          data: reader.result as ArrayBuffer,
         });
       };
       reader.readAsArrayBuffer(file);
